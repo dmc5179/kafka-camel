@@ -1,0 +1,21 @@
+#
+
+# Clear everything out
+oc delete all --all
+
+# Delete the route
+oc delete route camel-ose-springboot-xml
+
+# Delete the service
+oc delete svc camel-ose-springboot-xml
+
+# Deploy spring boot app
+mvn fabric8:deploy
+
+# Watch the pods and wait for them to come online
+
+# Expose the route
+oc expose svc/
+
+# Query the REST Endpoint
+curl -X get http://routename/claimlab/claim
