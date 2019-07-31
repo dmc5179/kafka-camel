@@ -22,25 +22,25 @@ import org.springframework.stereotype.Component;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.kafka.KafkaComponent;
-import org.apache.camel.component.kafka.KafkaConstants;
+//import org.apache.camel.component.kafka.KafkaComponent;
+//import org.apache.camel.component.kafka.KafkaConstants;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 
 import java.io.File;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Named;
+//import javax.enterprise.context.ApplicationScoped;
+//import javax.enterprise.inject.Produces;
+//import javax.inject.Named;
 
-import com.amazonaws.auth.AWSCredentials;
+//import com.amazonaws.auth.AWSCredentials;
 //import com.amazonaws.auth.AWSCredentialsProvider;
 //import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import org.apache.camel.LoggingLevel;
+//import com.amazonaws.auth.BasicAWSCredentials;
+//import com.amazonaws.regions.Regions;
+//import org.apache.camel.LoggingLevel;
 //import org.apache.camel.support.processor.idempotent.FileIdempotentRepository;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+//import com.amazonaws.services.s3.AmazonS3;
+//import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Component
 public class MyRouter extends RouteBuilder {
@@ -54,7 +54,7 @@ public class MyRouter extends RouteBuilder {
   @Override
   public void configure() throws Exception {
                 
-
+/*
      PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
      pc.setLocation("classpath:application.properties");
 
@@ -65,7 +65,7 @@ public class MyRouter extends RouteBuilder {
 
      String toKafka = new StringBuilder().append(kafkaServer).append("?").append(topicName).append("&")
           .append(zooKeeperHost).append("&").append(serializerClass).toString();
-
+*/
 
 /*
  from("aws-s3://mapd-data/ships-ais/2014/?deleteAfterRead=false&maxMessagesPerPoll=25&delay=5000")
@@ -115,7 +115,7 @@ public class MyRouter extends RouteBuilder {
   @Produces
   @Named("amazonS3Client")
   AmazonS3 amazonS3Client() {
-    AWSCredentials credentials = new BasicAWSCredentials("AKIAIOWVV6Q3NZOQUQCQ", "6wf28vlUUAFUthfdAcHMicvuA6oTUB+piFcksZXa");
+    AWSCredentials credentials = new BasicAWSCredentials("XXXXXX", "XXXXXX");
     AWSCredentialsProvider credentialsProvider = new AWSStaticCredentialsProvider(credentials);
     AmazonS3ClientBuilder clientBuilder = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_1).withCredentials(credentialsProvider);
     return clientBuilder.build();

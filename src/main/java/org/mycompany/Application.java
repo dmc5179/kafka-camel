@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
+//import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 /**
  * A spring-boot application that includes a Camel route builder to setup the Camel routes
