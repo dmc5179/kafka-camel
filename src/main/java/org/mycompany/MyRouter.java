@@ -43,6 +43,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+
 @Component
 public class MyRouter extends RouteBuilder {
     
@@ -51,10 +52,32 @@ public class MyRouter extends RouteBuilder {
   //The properties bean autoconfigured by application properties
   @Autowired
   ServerProperties serverProperties;
+/*
+    @Override
+    protected int poll() throws Exception {
+        // must reset for each poll
+        shutdownRunningTask = null;
+        pendingExchanges = 0;
+        
+        String bucketName = "mapd-data";
+        LOG.trace("Quering objects in bucket [{}]...", bucketName);
+        
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest();
+        listObjectsRequest.setBucketName(bucketName);
+        listObjectsRequest.setMaxKeys(getMaxMessagesPerPoll());
+        
+        ObjectListing listObjects = getAmazonS3Client().listObjects(listObjectsRequest);
+        
+        LOG.trace("Found {} objects in bucket [{}]...", listObjects.getObjectSummaries().size(), bucketName);
+        
+        Queue<Exchange> exchanges = createExchanges(listObjects.getObjectSummaries());
+        return processBatch(CastUtils.cast(exchanges));
+    }
+*/
     
   @Override
   public void configure() throws Exception {
-                
+/*                
      PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
      pc.setLocation("classpath:application.properties");
 
@@ -65,14 +88,28 @@ public class MyRouter extends RouteBuilder {
 
      String toKafka = new StringBuilder().append(kafkaServer).append("?").append(topicName).append("&")
           .append(zooKeeperHost).append("&").append(serializerClass).toString();
+*/
 
- from("aws-s3://mapd-data?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=10&delay=1000&prefix=2014")
-            .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
-            .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
-                .to("file://tmp?fileName=${in.header.CamelAwsS3Key}");
+// The location of the file is in /deployments so if you put file://tmp in the container it is /deployments/tmp
+    from("aws-s3://mapd-data?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
+        .routeId("define-file-name")
+        .setHeader("myHeader", constant("${in.header.CamelAwsS3Key}"))
+        .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
+        .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
+        .to("direct:insert");
 
+    from("direct:insert").log("Inserting AIS Row").beanRef("AISMapper", "getMap")
+            .to("sqlComponent:{{sql.insertAis}}");
 
+/*
+    from("direct:start")
+        .routeId("poll-file")
+        .pollEnrich().simple("file://tmp?fileName=${in.header.myHeader}").timeout(10000)
+        .log("polling file ${in.header.myHeader}");
+*/
 
+//        .to("file://tmp?fileName=${in.header.CamelAwsS3Key}");
+//
 /*
      // setup kafka component with the brokers
      KafkaComponent kafka = new KafkaComponent();
