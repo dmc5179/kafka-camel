@@ -91,25 +91,19 @@ public class MyRouter extends RouteBuilder {
 */
 
 // The location of the file is in /deployments so if you put file://tmp in the container it is /deployments/tmp
-    from("aws-s3://mapd-data?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
+    from("aws-s3://demojam?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
         .routeId("define-file-name")
         .setHeader("myHeader", constant("${in.header.CamelAwsS3Key}"))
         .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
         .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
-        .to("direct:insert");
+        .to("file:/tmp?fileName=${in.header.CamelAwsS3Key}");
 
-    from("direct:insert").log("Inserting AIS Row").beanRef("AISMapper", "getMap")
-            .to("sqlComponent:{{sql.insertAis}}");
 
-/*
-    from("direct:start")
-        .routeId("poll-file")
-        .pollEnrich().simple("file://tmp?fileName=${in.header.myHeader}").timeout(10000)
-        .log("polling file ${in.header.myHeader}");
-*/
+//        .to("direct:insert");
 
-//        .to("file://tmp?fileName=${in.header.CamelAwsS3Key}");
-//
+//    from("direct:insert").log("Inserting AIS Row").beanRef("AISMapper", "getMap")
+//            .to("sqlComponent:{{sql.insertAis}}");
+
 /*
      // setup kafka component with the brokers
      KafkaComponent kafka = new KafkaComponent();
