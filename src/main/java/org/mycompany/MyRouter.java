@@ -43,6 +43,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+import java.net.URL;
 
 @Component
 public class MyRouter extends RouteBuilder {
@@ -80,15 +81,16 @@ public class MyRouter extends RouteBuilder {
 /*                
      PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
      pc.setLocation("classpath:application.properties");
-
-     String topicName = "topic=ais-topic";
-     String kafkaServer = "kafka:localhost:9092";
-     String zooKeeperHost = "zookeeperHost=localhost&zookeeperPort=2181";
-     String serializerClass = "serializerClass=kafka.serializer.StringEncoder";
-
-     String toKafka = new StringBuilder().append(kafkaServer).append("?").append(topicName).append("&")
-          .append(zooKeeperHost).append("&").append(serializerClass).toString();
 */
+
+    String filePath= Thread.currentThread().getContextClassLoader().getResource("keystore.pfx").getFile();
+    System.setProperty("javax.net.ssl.trustStore", filePath);
+    System.setProperty("javax.net.ssl.trustStorePassword", "password");
+
+//    URL trustStoreResource = MyRouter.class.getResource( "/keystore.jks" );
+//        String path = trustStoreResource.toURI().getPath();
+//        System.setProperty("javax.net.ssl.trustStore", path);
+//        System.setProperty("javax.net.ssl.trustStorePassword", "password");
 
 // The location of the file is in /deployments so if you put file://tmp in the container it is /deployments/tmp
     from("aws-s3://demojam?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
@@ -96,7 +98,9 @@ public class MyRouter extends RouteBuilder {
         .setHeader("myHeader", constant("${in.header.CamelAwsS3Key}"))
         .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
         .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
-        .to("file:/tmp?fileName=${in.header.CamelAwsS3Key}");
+      .to("kafka:ais-topic?brokers=ais-cluster-kafka-bootstrap-amq-streams.apps.dan.redhatgov.io:80&securityProtocol=SSL");
+
+//        .to("file:/tmp?fileName=${in.header.CamelAwsS3Key}");
 
 
 //        .to("direct:insert");
