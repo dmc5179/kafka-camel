@@ -83,9 +83,9 @@ public class MyRouter extends RouteBuilder {
      pc.setLocation("classpath:application.properties");
 */
 
-    String filePath= Thread.currentThread().getContextClassLoader().getResource("keystore.pfx").getFile();
-    System.setProperty("javax.net.ssl.trustStore", filePath);
-    System.setProperty("javax.net.ssl.trustStorePassword", "password");
+    //String filePath= Thread.currentThread().getContextClassLoader().getResource("keystore.pfx").getFile();
+    //System.setProperty("javax.net.ssl.trustStore", filePath);
+    //System.setProperty("javax.net.ssl.trustStorePassword", "password");
 
 //    URL trustStoreResource = MyRouter.class.getResource( "/keystore.jks" );
 //        String path = trustStoreResource.toURI().getPath();
@@ -98,7 +98,7 @@ public class MyRouter extends RouteBuilder {
         .setHeader("myHeader", constant("${in.header.CamelAwsS3Key}"))
         .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
         .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
-      .to("kafka:ais-topic?brokers=ais-cluster-kafka-bootstrap-amq-streams.apps.dan.redhatgov.io:80&securityProtocol=SSL");
+      .to("kafka:ais-topic?brokers=ais-cluster-kafka-bootstrap-amq-streams.apps.dan.redhatgov.io:443&securityProtocol=SSL");
 
 //        .to("file:/tmp?fileName=${in.header.CamelAwsS3Key}");
 
