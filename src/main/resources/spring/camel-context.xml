@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cxf="http://camel.apache.org/schema/cxf" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/cxf
+       http://camel.apache.org/schema/cxf/camel-cxf.xsd 
+       http://cxf.apache.org/jaxrs
+       http://cxf.apache.org/schemas/jaxrs.xsd
+       http://www.springframework.org/schema/jdbc 
+       http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       http://camel.apache.org/schema/spring
+       http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd ">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost/userdb" />
+		<property name="username" value="testuser" />
+		<property name="password" value="redhat" />
+	</bean>
 <!--
-  <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource" name="dataSource" primary="true">
-    <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-    <property name="url" value="jdbc:sqlserver://170.142.67.98:1433;DatabaseName=DW_ODS_CaseConnect;"/>
-    <property name="username" value="CASEConnectUSer"/>
-    <property name="password" value="CASE39Connect"/>
-  </bean>
-
-  <bean class="org.springframework.boot.web.servlet.ServletRegistrationBean" id="servlet">
-    <property name="name" value="CamelServlet"/>
-    <property name="servlet" ref="camelServlet"/>
-    <property name="urlMappings" value="/claims/*"/>
-  </bean>
-
-  <bean class="org.apache.camel.component.servlet.CamelHttpTransportServlet" id="camelServlet"/>
-
-  <camelContext xmlns="http://camel.apache.org/schema/spring" id="camel">
-
-    <restConfiguration apiContextPath="api-docs" bindingMode="json" component="servlet" contextPath="/claimlab">
-      <apiProperty key="cors" value="true"/>
-      <apiProperty key="api.title" value="Claim Info API Lab"/>
-      <apiProperty key="api.version" value="1.0.0"/>
-    </restConfiguration>
-
-    <rest id="rest-claim" path="/claim">
-      <get id="getClaim" uri="all">
-        <description>Get claim details</description>
-        <to uri="direct:getClaims"/>
-      </get>
-    </rest>
-
-  </camelContext>
+	<jdbc:initialize-database data-source="dataSource"
+		enabled="true">
+		<jdbc:script location="classpath:db-schema.sql" />
+	</jdbc:initialize-database>
 -->
+	<bean id="sqlComponent" class="org.apache.camel.component.sql.SqlComponent">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="aisMapper" class="org.mycompany.AISMapper" />
+	<bean id="aisRouter" class="org.mycompany.AISRouter" />
+
+	<camelContext id="aisContext" xmlns="http://camel.apache.org/schema/spring">
+
+		<propertyPlaceholder id="placeholder" location="classpath:sql.properties" />
+		<routeBuilder ref="aisRouter" />
+
+	</camelContext>
+
 </beans>

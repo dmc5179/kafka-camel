@@ -46,7 +46,7 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import java.net.URL;
 
 @Component
-public class MyRouter extends RouteBuilder {
+public class AISRouter extends RouteBuilder {
     
   //private final static Logger log = LoggerFactory.getLogger(RestConfiguration.class);
 	
