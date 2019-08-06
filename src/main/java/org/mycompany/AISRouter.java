@@ -78,29 +78,16 @@ public class AISRouter extends RouteBuilder {
     
   @Override
   public void configure() throws Exception {
-/*                
-     PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
-     pc.setLocation("classpath:application.properties");
-*/
 
-    //String filePath= Thread.currentThread().getContextClassLoader().getResource("keystore.pfx").getFile();
-    //System.setProperty("javax.net.ssl.trustStore", filePath);
-    //System.setProperty("javax.net.ssl.trustStorePassword", "password");
-
-//    URL trustStoreResource = MyRouter.class.getResource( "/keystore.jks" );
-//        String path = trustStoreResource.toURI().getPath();
-//        System.setProperty("javax.net.ssl.trustStore", path);
-//        System.setProperty("javax.net.ssl.trustStorePassword", "password");
-
-// The location of the file is in /deployments so if you put file://tmp in the container it is /deployments/tmp
+  // The location of the file is in /deployments so if you put file://tmp in the container it is /deployments/tmp
+  // This assumes the ais files are top level in the bucket and uncompressed with no headers
+  // This setup requires that when the kafka cluster is made it has an internal route available without TLS
     from("aws-s3://demojam?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
         .routeId("define-file-name")
         .setHeader("myHeader", constant("${in.header.CamelAwsS3Key}"))
         .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
         .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
-      .to("kafka:ais-topic?brokers=ais-cluster-kafka-bootstrap-amq-streams.apps.dan.redhatgov.io:443&securityProtocol=SSL");
-
-//        .to("file:/tmp?fileName=${in.header.CamelAwsS3Key}");
+        .to("kafka:ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092?topic=ais-topic&brokers=ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092");
 
 
 //        .to("direct:insert");
@@ -108,33 +95,6 @@ public class AISRouter extends RouteBuilder {
 //    from("direct:insert").log("Inserting AIS Row").beanRef("AISMapper", "getMap")
 //            .to("sqlComponent:{{sql.insertAis}}");
 
-/*
-     // setup kafka component with the brokers
-     KafkaComponent kafka = new KafkaComponent();
-     kafka.setBrokers("{{kafka.host}}:{{kafka.port}}");
-
-     from("direct:kafkaStart").routeId("DirectToKafka")
-       .to("kafka:{{producer.topic}}").log("${headers}");
-
-     // Topic can be set in header as well.
-
-     from("direct:kafkaStartNoTopic").routeId("kafkaStartNoTopic")
-       .to("kafka:dummy")
-       .log("${headers}");
-
-     // Use custom partitioner based on the key.
-
-     from("direct:kafkaStartWithPartitioner").routeId("kafkaStartWithPartitioner")
-       .to("kafka:{{producer.topic}}?partitioner={{producer.partitioner}}")
-       .log("${headers}");
-
-
-     // Takes input from the command line.
-
-     from("stream:in").setHeader(KafkaConstants.PARTITION_KEY, simple("0"))
-       .setHeader(KafkaConstants.KEY, simple("1")).to("direct:kafkaStart");
-*/     
-      
   }
 
 }

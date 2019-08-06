@@ -47,3 +47,6 @@ Then create the quickstart template:
 
 Now when you use "Add to Project" button in the OpenShift console, you should see a template for this quickstart. 
 
+
+ mvn -Drun.jvmArguments="-Dbootstrap.server=ais-cluster-kafka-bootstrap-amq-streams.apps.dan.redhatgov.io:443"  clean package spring-boot:run
+

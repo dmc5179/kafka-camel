@@ -26,6 +26,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 //import com.microsoft.sqlserver.jdbc.SQLServerDriver;
+//
+
 
 /**
  * A spring-boot application that includes a Camel route builder to setup the Camel routes
@@ -35,6 +37,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(value = "org.mycompany")
 //@ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
+
+//    @Autowired
+//    private RestTemplate restTemplate;
 
     // must have a main method spring-boot can run
     public static void main(String[] args) {
