@@ -19,10 +19,10 @@
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost/userdb" />
-		<property name="username" value="testuser" />
-		<property name="password" value="redhat" />
+		<property name="driverClassName" value="com.mapd.jdbc.MapDDriver" />
+		<property name="url" value="jdbc:omnisci:hostname:6274:omnisci" />
+		<property name="username" value="admin" />
+		<property name="password" value="HyperInteractive" />
 	</bean>
 <!--
 	<jdbc:initialize-database data-source="dataSource"
