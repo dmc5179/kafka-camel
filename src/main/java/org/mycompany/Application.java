@@ -16,7 +16,7 @@
 package org.mycompany;
 
 
-//import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.ImportResource;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,6 +24,12 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 //import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 //
@@ -35,7 +41,7 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @Configuration
 @ComponentScan(value = "org.mycompany")
-//@ImportResource({"classpath:spring/camel-context.xml"})
+@ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
 
 //    @Autowired
@@ -43,7 +49,16 @@ public class Application {
 
     // must have a main method spring-boot can run
     public static void main(String[] args) {
+//    try {
         SpringApplication.run(Application.class, args);
+/*
+         ApplicationContext springCtx = new ClassPathXmlApplicationContext("camel-context.xml");
+
+            CamelContext context = springCtx.getBean("employeeContext", CamelContext.class);
+
+            context.start();
+       } catch (Exception e) {}
+*/
     }
     
 }
