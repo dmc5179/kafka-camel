@@ -20,7 +20,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.omnisci.jdbc.OmniSciDriver" />
-		<property name="url" value="jdbc:omnisci:hostname:6274:omnisci" />
+		<property name="url" value="jdbc:omnisci:mapd.omnisci.svc.cluster.local:6274:omnisci" />
 		<property name="username" value="admin" />
 		<property name="password" value="HyperInteractive" />
 	</bean>
