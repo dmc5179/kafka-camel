@@ -17,31 +17,45 @@
        http://www.springframework.org/schema/context 
        http://www.springframework.org/schema/context/spring-context.xsd ">
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="omniSciDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.omnisci.jdbc.OmniSciDriver" />
 		<property name="url" value="jdbc:omnisci:mapd.omnisci.svc.cluster.local:6274:omnisci" />
 		<property name="username" value="admin" />
 		<property name="password" value="HyperInteractive" />
 	</bean>
+
+        <bean id="postgisDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+                destroy-method="close">
+                <property name="driverClassName" value="org.postgresql.Driver" />
+                <property name="url" value="jdbc:postgresql://ais-pg-cluster.pgo.svc.cluster.local:5432/userdb" />
+                <property name="username" value="testuser" />
+                <property name="password" value="redhat" />
+        </bean>
+
 <!--
 	<jdbc:initialize-database data-source="dataSource"
 		enabled="true">
 		<jdbc:script location="classpath:db-schema.sql" />
 	</jdbc:initialize-database>
 -->
-	<bean id="sqlComponent" class="org.apache.camel.component.sql.SqlComponent">
-		<property name="dataSource" ref="dataSource" />
+	<bean id="omnisciSQLComponent" class="org.apache.camel.component.sql.SqlComponent">
+		<property name="dataSource" ref="omniSciDataSource" />
 	</bean>
+
+        <bean id="postgisSQLComponent" class="org.apache.camel.component.sql.SqlComponent">
+                <property name="dataSource" ref="postgisDataSource" />
+        </bean>
 
 	<bean id="aisMapper" class="org.mycompany.AISMapper" />
 	<bean id="aisRouter" class="org.mycompany.AISRouter" />
-
+<!--
 	<camelContext id="aisContext" xmlns="http://camel.apache.org/schema/spring">
 
 		<propertyPlaceholder id="placeholder" location="classpath:sql.properties" />
 		<routeBuilder ref="aisRouter" />
 
 	</camelContext>
+-->
 
 </beans>
