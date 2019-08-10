@@ -31,10 +31,6 @@ import org.apache.camel.ProducerTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-//import com.microsoft.sqlserver.jdbc.SQLServerDriver;
-//
-
-
 /**
  * A spring-boot application that includes a Camel route builder to setup the Camel routes
  */
