@@ -82,12 +82,39 @@ public class AISRouter extends RouteBuilder {
   // The location of the file is in /deployments so if you put file://tmp in the container it is /deployments/tmp
   // This assumes the ais files are top level in the bucket and uncompressed with no headers
   // This setup requires that when the kafka cluster is made it has an internal route available without TLS
+  /*
     from("aws-s3://demojam?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
         .routeId("define-file-name")
+        .autoStartup("{{S3toKafkastartupRouteProperty}}")
         .setHeader("myHeader", constant("${in.header.CamelAwsS3Key}"))
         .log(LoggingLevel.INFO, "consuming", "Consumer Fired!")
         .log(LoggingLevel.INFO, "Replay Message Sent to file:s3out ${in.header.CamelAwsS3Key}")
         .to("kafka:ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092?topic=ais-topic&brokers=ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092");
+*/
+
+    StringBuffer aisInsert = new StringBuffer("INSERT INTO ship_test(Longitude ,Latitude ,unused_z ,SOG ,COG ,Heading ,ROT ,BaseDateTime ,Status ,VoyageID");
+      aisInsert.append(" ,MMSI ,ReceiverType ,ReceiverID ,Destination ,Cargo ,Draught ,ETA ,StartTime ,EndTime ,unused_IMO ,unused_CallSign ,unused_Name");
+      aisInsert.append(" ,VesselType ,VesselLength ,VesselWidth ,DimensionComponents) ");
+      aisInsert.append("VALUES (:#Longitude ,:#Latitude ,:#unused_z ,:#SOG ,:#COG ,:#Heading ,:#ROT ,:#BaseDateTime ,:#Status ,:#VoyageID");
+      aisInsert.append(", :#MMSI ,:#ReceiverType ,:#ReceiverID ,:#Destination ,:#Cargo ,:#Draught ,:#ETA ,:#StartTime ,:#EndTime ,:#unused_IMO ,:#unused_CallSign ,:#unused_Name");
+      aisInsert.append(",:#VesselType ,:#VesselLength ,:#VesselWidth ,:#DimensionComponents");
+      aisInsert.append(")");
+
+    from("aws-s3://demojam?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
+        .routeId("S3-to-postgis")
+        .autoStartup("True")
+        .log(LoggingLevel.INFO, "Sending file to postgis file:s3out ${in.header.CamelAwsS3Key}")
+        .split().tokenize("\n", 1000).streaming().to("postgisSQLComponent:"+aisInsert.toString());
+
+
+/*
+    from("kafka:ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092?topic=ais-topic&brokers=ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092")
+        .routeId("kafka-to-omniscidb")
+        .log("Inserted new AIS point").beanRef("aisMapper", "getMap")
+        .to("sqlComponent:{{sql.insertAIS}}");
+*/
+//        .autoStartup("{{kafkaToSQLstartupRouteProperty}}")
+//
 
 
 //        .to("direct:insert");
