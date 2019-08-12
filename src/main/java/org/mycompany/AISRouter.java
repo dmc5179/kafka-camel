@@ -43,16 +43,37 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+import org.apache.camel.Exchange;
+import org.apache.camel.Predicate;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.BindyType;
+import org.apache.camel.processor.aggregate.AggregationStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.net.URL;
 
 @Component
 public class AISRouter extends RouteBuilder {
     
   //private final static Logger log = LoggerFactory.getLogger(RestConfiguration.class);
+   private static final long BATCH_TIME_OUT = 3000L;
+
+   private static final int MAX_RECORDS = 900;
 	
   //The properties bean autoconfigured by application properties
   @Autowired
   ServerProperties serverProperties;
+
+ @Autowired
+ private CsvToModelMapper csvToModelConverter;
+
+  @Autowired
+  private PersistService persistService;
+
 /*
     @Override
     protected int poll() throws Exception {
@@ -92,19 +113,44 @@ public class AISRouter extends RouteBuilder {
         .to("kafka:ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092?topic=ais-topic&brokers=ais-cluster-kafka-bootstrap.amq-streams.svc.cluster.local:9092");
 */
 
-    StringBuffer aisInsert = new StringBuffer("INSERT INTO ship_test(Longitude ,Latitude ,unused_z ,SOG ,COG ,Heading ,ROT ,BaseDateTime ,Status ,VoyageID");
+/*
+    StringBuffer aisInsert = new StringBuffer("INSERT INTO ships_ais(Longitude ,Latitude ,unused_z ,SOG ,COG ,Heading ,ROT ,BaseDateTime ,Status ,VoyageID");
       aisInsert.append(" ,MMSI ,ReceiverType ,ReceiverID ,Destination ,Cargo ,Draught ,ETA ,StartTime ,EndTime ,unused_IMO ,unused_CallSign ,unused_Name");
       aisInsert.append(" ,VesselType ,VesselLength ,VesselWidth ,DimensionComponents) ");
       aisInsert.append("VALUES (:#Longitude ,:#Latitude ,:#unused_z ,:#SOG ,:#COG ,:#Heading ,:#ROT ,:#BaseDateTime ,:#Status ,:#VoyageID");
       aisInsert.append(", :#MMSI ,:#ReceiverType ,:#ReceiverID ,:#Destination ,:#Cargo ,:#Draught ,:#ETA ,:#StartTime ,:#EndTime ,:#unused_IMO ,:#unused_CallSign ,:#unused_Name");
       aisInsert.append(",:#VesselType ,:#VesselLength ,:#VesselWidth ,:#DimensionComponents");
       aisInsert.append(")");
+*/
+/*
+CsvDataFormat csv = new CsvDataFormat();
+CSVStrategy strategy = CSVStrategy.DEFAULT_STRATEGY;
+strategy.setDelimiter('|');
+csv.setStrategy(strategy);
+*/
 
     from("aws-s3://demojam?accessKey=RAW()&secretKey=RAW()&deleteAfterRead=false&maxMessagesPerPoll=2&delay=1000")
         .routeId("S3-to-postgis")
         .autoStartup("True")
         .log(LoggingLevel.INFO, "Sending file to postgis file:s3out ${in.header.CamelAwsS3Key}")
-        .split().tokenize("\n", 1000).streaming().to("postgisSQLComponent:"+aisInsert.toString());
+        .split()
+        .tokenize("\n")
+        .streaming()
+//        .filter(simple("${body.length} &gt; 30"))
+        .unmarshal()
+        .bindy(org.apache.camel.model.dataformat.BindyType.Csv, AISCSVRecord.class)
+        .bean(csvToModelConverter, "convertToPostgisModel")
+        .aggregate(constant(true), batchAggregationStrategy())
+        .completionPredicate(batchSizePredicate())
+        .completionTimeout(BATCH_TIME_OUT)
+        .bean(persistService)
+        .end();
+
+
+
+//  .to("bean:myCsvHandler?method=doHandleCsv");
+//        .split().tokenize("\n", 1).to("sql:"+aisInsert.toString()+"?dataSource=postgisDataSource");
+//        .split().tokenize("\n", 1000).streaming().to("postgisSQLComponent:"+aisInsert.toString());
 
 
 /*
@@ -123,5 +169,15 @@ public class AISRouter extends RouteBuilder {
 //            .to("sqlComponent:{{sql.insertAis}}");
 
   }
+
+        @Bean
+        private AggregationStrategy batchAggregationStrategy() {
+                return new ArrayListAggregationStrategy();
+        }
+
+        @Bean
+        public Predicate batchSizePredicate() {
+                return new BatchSizePredicate(MAX_RECORDS);
+        }
 
 }
