@@ -1,4 +1,4 @@
-package org.mycompany;
+package com.logger.rout;
 
 //import java.sql.TimeStamp;
 
@@ -6,7 +6,7 @@ import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
 @CsvRecord( separator = "," )
-public class AISCSVRecord {
+public class CSVRecord {
 
   @DataField(pos = 1)
   private String Longitude;
@@ -68,114 +68,219 @@ public class AISCSVRecord {
 
   @Override
   public String toString() {
-    return "AISRecord [lat=" + Latitude + ", lon=" + Longitude + ", sog=" + SOG + ", cog=" + COG + ", heading=" + Heading + ", rot=" + ROT + ", bdt=" + BaseDateTime + ", status=" + Status 
+    return "CSVRecord [lat=" + Latitude + ", lon=" + Longitude + ", sog=" + SOG + ", cog=" + COG + ", heading=" + Heading + ", rot=" + ROT + ", bdt=" + BaseDateTime + ", status=" + Status 
         + ", voyageId=" + VoyageID + ", mmsi=" + MMSI + ", receiverType=" + ReceiverType + ", receiverId=" + ReceiverID + ", dest=" + Destination + ", cargo=" + Cargo 
         + ", draught=" + Draught + ", eta=" + ETA + ", startTime=" + StartTime + ", endTime=" + EndTime + ", vesselType=" + VesselType + ", vesselLength=" + VesselLength 
         + ", vesselWidth=" + VesselWidth + ", dimComp=" + DimensionComponents + "]";
   }
-/*
-  public float getLongitude() {
+
+  public String getLongitude() {
     return Longitude;
   }
 
-  public float getLatitude() {
+  public void setLongitude(String Longitude) {
+    this.Longitude = Longitude;
+  }
+
+  public String getLatitude() {
     return Latitude;
   }
 
-  public float getunused_z() {
+  public void setLatitude(String Latitude) {
+    this.Latitude = Latitude;
+  }
+
+  public String getunused_z() {
     return unused_z;
   }
 
-  public float getSOG() {
+  public void setunused_z(String unused_z) {
+    this.unused_z = unused_z;
+  }
+
+  public String getSOG() {
     return SOG;
   }
 
-  public float getCOG() {
+  public void setSOG(String SOG) {
+    this.SOG = SOG;
+  }
+
+  public String getCOG() {
     return COG;
   }
 
-  public short getHeading() {
+  public void setCOG(String COG) {
+    this.COG = COG;
+  }
+
+  public String getHeading() {
     return Heading;
   }
 
-  public short getROT() {
+  public void setHeading(String Heading) {
+    this.Heading = Heading;
+  }
+
+  public String getROT() {
     return ROT;
+  }
+
+  public void setROT(String ROT) {
+    this.ROT = ROT;
   }
 
   public String getBaseDateTime() {
     return BaseDateTime;
   }
 
-  public short getStatus() {
+  public void setBaseDateTime(String BaseDateTime) {
+    this.BaseDateTime = BaseDateTime;
+  }
+
+  public String getStatus() {
     return Status;
+  }
+
+  public void setStatus(String Status) {
+    this.Status = Status;
   }
 
   public String getVoyageID() {
     return VoyageID;
   }
 
+  public void setVoyageID(String VoyageID) {
+    this.VoyageID = VoyageID;
+  }
+
   public String getMMSI() {
     return MMSI;
+  }
+
+  public void setMMSI(String MMSI) {
+    this.MMSI = MMSI;
   }
 
   public String getReceiverType() {
     return ReceiverType;
   }
 
+  public void setReceiverType(String ReceiverType) {
+    this.ReceiverType = ReceiverType;
+  }
+
   public String getReceiverID() {
     return ReceiverID;
+  }
+
+  public void setReceiverID(String ReceiverID) {
+    this.ReceiverID = ReceiverID;
   }
 
   public String getDestination() {
     return Destination;
   }
 
-  public short getCargo() {
+  public void setDestination(String Destination) {
+    this.Destination = Destination;
+  }
+
+  public String getCargo() {
     return Cargo;
   }
 
-  public short getDraught() {
+  public void setCargo(String Cargo) {
+    this.Cargo = Cargo;
+  }
+
+  public String getDraught() {
     return Draught;
+  }
+
+  public void setDraught(String Draught) {
+    this.Draught = Draught;
   }
 
   public String getETA() {
     return ETA;
   }
 
+  public void setETA(String ETA) {
+    this.ETA = ETA;
+  }
+
   public String getStartTime() {
     return StartTime;
+  }
+
+  public void setStartTime(String StartTime) {
+    this.StartTime = StartTime;
   }
 
   public String getEndTime() {
     return EndTime;
   }
 
+  public void setEndTime(String EndTime) {
+    this.EndTime = EndTime;
+  }
+
   public String getunused_IMO() {
     return unused_IMO;
+  }
+
+  public void setunused_IMO(String unused_IMO) {
+    this.unused_IMO = unused_IMO;
   }
 
   public String getunused_CallSign() {
     return unused_CallSign;
   }
 
+  public void setunused_CallSign(String unused_CallSign) {
+    this.unused_CallSign = unused_CallSign;
+  }
+
   public String getunused_Name() {
     return unused_Name;
+  }
+
+  public void setunused_Name(String unused_Name) {
+    this.unused_Name = unused_Name;
   }
 
   public String getVesselType() {
     return VesselType;
   }
 
-  public short getVesselLength() {
+  public void setVesselType(String VesselType) {
+    this.VesselType = VesselType;
+  }
+
+  public String getVesselLength() {
     return VesselLength;
   }
 
-  public short getVesselWidth() {
+  public void setVesselLength(String VesselLength) {
+    this.VesselLength = VesselLength;
+  }
+
+  public String getVesselWidth() {
     return VesselWidth;
+  }
+
+  public void setVesselWidth(String VesselWidth) {
+    this.VesselWidth = VesselWidth;
   }
 
   public String getDimensionComponents() {
     return DimensionComponents;
   }
-*/
+
+  public void setDimensionComponents(String DimensionComponents) {
+    this.DimensionComponents = DimensionComponents;
+  }
+
+
 }

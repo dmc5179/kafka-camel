@@ -1,4 +1,4 @@
-package org.mycompany;
+package com.logger.rout.service.db.mysql;
 
 import java.util.List;
 
@@ -7,25 +7,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.hibernate.HibernateException;
+
+import com.logger.rout.service.db.DatabaseRecord;
 
 @Component
-public class PersistService{
+public class MysqlLogrecordDAO {
 
 	@Autowired
 	SessionFactory sessionFactory;
 
-	public void save(List<AISDatabaseRecord> records) {
+	public void save(List<DatabaseRecord> records) {
 		System.out.println("Save " + records.size() + " records ...");
-		//Session session = sessionFactory.getCurrentSession();
-		Session session;
-try {
-    session = sessionFactory.getCurrentSession();
-} catch (HibernateException e) {
-    session = sessionFactory.openSession();
-}
+		Session session = sessionFactory.getCurrentSession();
 		try {
-			for (AISDatabaseRecord temp : records) {
+			for (DatabaseRecord temp : records) {
 				session.save(temp);
 			}
 		} catch (Exception ex) {

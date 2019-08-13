@@ -13,7 +13,7 @@
  *  implied.  See the License for the specific language governing
  *  permissions and limitations under the License.
  */
-package org.mycompany;
+package com.logger.rout;
 
 
 import org.springframework.context.annotation.ImportResource;
@@ -36,7 +36,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 @SpringBootApplication
 @Configuration
-@ComponentScan(value = "org.mycompany")
+@ComponentScan(value = "com.logger.rout")
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
 
@@ -45,16 +45,7 @@ public class Application {
 
     // must have a main method spring-boot can run
     public static void main(String[] args) {
-//    try {
         SpringApplication.run(Application.class, args);
-/*
-         ApplicationContext springCtx = new ClassPathXmlApplicationContext("camel-context.xml");
-
-            CamelContext context = springCtx.getBean("employeeContext", CamelContext.class);
-
-            context.start();
-       } catch (Exception e) {}
-*/
     }
     
 }

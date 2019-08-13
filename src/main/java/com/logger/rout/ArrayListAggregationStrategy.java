@@ -1,5 +1,4 @@
-package org.mycompany;
-
+package com.logger.rout;
 
 import java.util.ArrayList;
 
@@ -31,4 +30,3 @@ public class ArrayListAggregationStrategy implements AggregationStrategy {
 	}
 
 }
-
