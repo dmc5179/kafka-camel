@@ -33,7 +33,7 @@ public class MysqlDatabaseRecord implements Serializable, DatabaseRecord {
   private String COG;
   private String Heading;
   private String ROT;
-  private String BaseDateTime;
+  private Date BaseDateTime;
   private String Status;
   private String VoyageID;
   private String MMSI;
@@ -42,9 +42,9 @@ public class MysqlDatabaseRecord implements Serializable, DatabaseRecord {
   private String Destination;
   private String Cargo;
   private String Draught;
-  private String ETA;
-  private String StartTime;
-  private String EndTime;
+  private Date ETA;
+  private Date StartTime;
+  private Date EndTime;
   private String unused_IMO;
   private String unused_CallSign;
   private String unused_Name;
@@ -109,11 +109,11 @@ public class MysqlDatabaseRecord implements Serializable, DatabaseRecord {
     this.ROT = ROT;
   }
 
-  public String getBaseDateTime() {
+  public Date getBaseDateTime() {
     return BaseDateTime;
   }
 
-  public void setBaseDateTime(String BaseDateTime) {
+  public void setBaseDateTime(Date BaseDateTime) {
     this.BaseDateTime = BaseDateTime;
   }
 
@@ -181,27 +181,27 @@ public class MysqlDatabaseRecord implements Serializable, DatabaseRecord {
     this.Draught = Draught;
   }
 
-  public String getETA() {
+  public Date getETA() {
     return ETA;
   }
 
-  public void setETA(String ETA) {
+  public void setETA(Date ETA) {
     this.ETA = ETA;
   }
 
-  public String getStartTime() {
+  public Date getStartTime() {
     return StartTime;
   }
 
-  public void setStartTime(String StartTime) {
+  public void setStartTime(Date StartTime) {
     this.StartTime = StartTime;
   }
 
-  public String getEndTime() {
+  public Date getEndTime() {
     return EndTime;
   }
 
-  public void setEndTime(String EndTime) {
+  public void setEndTime(Date EndTime) {
     this.EndTime = EndTime;
   }
 
