@@ -26,6 +26,7 @@ public class MysqlDatabaseRecord implements Serializable, DatabaseRecord {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
   private String Longitude;
   private String Latitude;
   private String unused_z;
@@ -52,6 +53,14 @@ public class MysqlDatabaseRecord implements Serializable, DatabaseRecord {
   private String VesselLength;
   private String VesselWidth;
   private String DimensionComponents;
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
 
   public String getLongitude() {
     return Longitude;

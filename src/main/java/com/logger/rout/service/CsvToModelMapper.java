@@ -63,36 +63,36 @@ public class CsvToModelMapper {
   }
 
   private String floatFromString(String floatString) {
-    String s = "NULL";
+    String s = "0";
     if (!StringUtils.isEmpty(floatString)) {
       try {
         s = new Float(floatString).toString();
       } catch (NumberFormatException e) {
-          s = "NULL";
+          s = "0";
       }
     }
     return s;
   }
 
   private String integerFromString(String intString) {
-    String i = "NULL";
+    String i = "0";
     if (!StringUtils.isEmpty(intString)) {
       try {
         i = Integer.decode(intString).toString();
       } catch (NumberFormatException e) {
-          i = "NULL";
+          i = "0";
       }
     }
     return i;
   }
 
   private String shortFromString(String shortString) {
-    String s = "NULL";
+    String s = "0";
     if (!StringUtils.isEmpty(shortString)) {
       try {
         s = Short.decode(shortString).toString();
       } catch (NumberFormatException e) {
-          s = "NULL";
+          s = "0";
       }
     }
     return s;
