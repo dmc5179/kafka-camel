@@ -57,24 +57,29 @@ public class LogRoute extends RouteBuilder {
 		.log(LoggingLevel.INFO, " Start Processing: file:s3out ${in.header.CamelAwsS3Key} ....")
 		.multicast()
 		.parallelProcessing()
-                .to("direct:database-save")
+                .to("direct:gunzip")
 		.end();
 
+                from("direct:gunzip")
+                   .unmarshal().gzip()
+                   .to("direct:database-save")
+                   .end();
+
 		from("direct:database-save")
-				.log(LoggingLevel.INFO, "Start saving to database ....")
-				.split()
-				.tokenize("\n")
-				.streaming()
-				//.filter(simple("${body.length} > 30"))
-				.unmarshal()
-				.bindy(BindyType.Csv, CSVRecord.class)
-				.bean(csvToModelConverter, "convertToMysqlModel")
-				.aggregate(constant(true), batchAggregationStrategy())
-				.completionPredicate(batchSizePredicate())
-				.completionTimeout(BATCH_TIME_OUT)
-				.bean(persistService)
-				.log(LoggingLevel.INFO, "End saving to database ....")
-				.end();
+                   .log(LoggingLevel.INFO, "Start saving to database ....")
+                   .split()
+                   .tokenize("\n")
+                   .streaming()
+                   .unmarshal()
+                   .bindy(BindyType.Csv, CSVRecord.class)
+                   .bean(csvToModelConverter, "convertToMysqlModel")
+                   .aggregate(constant(true), batchAggregationStrategy())
+                   .completionPredicate(batchSizePredicate())
+                   .completionTimeout(BATCH_TIME_OUT)
+                   .bean(persistService)
+                   .log(LoggingLevel.INFO, "End saving to database ....")
+                   .end();
+
 	}
 
 	@Bean
