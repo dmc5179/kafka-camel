@@ -1,0 +1,6 @@
+# This is a sample file
+# copy this file and remove the .example extension
+# git is set to ignore the file without the .example extension
+# Don't put you key in here and check it in
+aws.key=<Put aws key here>
+aws.secret=<Put aws secret here>
