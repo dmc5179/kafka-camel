@@ -28,7 +28,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-<!--
+    <!--
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -38,59 +38,49 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-
- <dependency>
-                        <groupId>org.apache.camel</groupId>
-                        <artifactId>camel-spring-javaconfig</artifactId>
-                        <!--version>2.12.2</version-->
-                </dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-bindy -->
-<dependency>
-    <groupId>org.apache.camel</groupId>
-    <artifactId>camel-bindy</artifactId>
-    <!--version>2.23.2</version-->
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-core</artifactId>
-    <!--version>5.4.3.Final</version-->
-    <version>4.3.11.Final</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-orm</artifactId>
-    <!--version>4.0.3.RELEASE</version-->
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
-<!--
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-spring-javaconfig</artifactId>
+      <!--version>2.12.2</version-->
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.camel/camel-bindy -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-bindy</artifactId>
+      <!--version>2.23.2</version-->
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <!--version>5.4.3.Final</version-->
+      <version>4.3.11.Final</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <!--version>4.0.3.RELEASE</version-->
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+    <!--
 <dependency>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-collections4</artifactId>
     <version>4.1</version>
 </dependency>
 -->
-<!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
-<dependency>
-    <groupId>commons-collections</groupId>
-    <artifactId>commons-collections</artifactId>
-    <version>3.2.1</version>
-</dependency>
-
-
-
-
-
+    <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-spring-boot-starter</artifactId>
     </dependency>
-<!--
+    <!--
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-servlet-starter</artifactId>
@@ -104,13 +94,13 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-swagger-java-starter</artifactId>
     </dependency>
-<!--
+    <!--
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-jpa-starter</artifactId>
     </dependency>
 -->
-<!--
+    <!--
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -122,13 +112,12 @@
       <scope>runtime</scope>
     </dependency>
 -->
-<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
-<dependency>
-    <groupId>postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>9.1-901.jdbc3</version>
-</dependency>
-
+    <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.1-901.jdbc3</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -141,34 +130,27 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-spring-boot-starter</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-sql-starter</artifactId>
     </dependency>
-
-
-<!-- https://mvnrepository.com/artifact/com.omnisci/jdbc -->
-
+    <!-- https://mvnrepository.com/artifact/com.omnisci/jdbc -->
     <dependency>
-        <groupId>com.omnisci</groupId>
-        <artifactId>jdbc</artifactId>
-        <version>4.7.1</version>
+      <groupId>com.omnisci</groupId>
+      <artifactId>jdbc</artifactId>
+      <version>4.7.1</version>
     </dependency>
-
-<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
-<dependency>
-    <groupId>commons-dbcp</groupId>
-    <artifactId>commons-dbcp</artifactId>
-    <version>1.4</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-jdbc -->
-<dependency>
-    <groupId>org.apache.camel</groupId>
-    <artifactId>camel-jdbc</artifactId>
-</dependency>
-
+    <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.camel/camel-jdbc -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jdbc</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-servlet</artifactId>
@@ -177,7 +159,7 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-kafka</artifactId>
       <!--version>x.x.x</version-->
-    <!-- use the same version as your Camel core version -->
+      <!-- use the same version as your Camel core version -->
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -197,7 +179,7 @@
       <!-- <scope>test</scope> -->
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
-<!--
+    <!--
     <dependency>
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
@@ -334,7 +316,7 @@
           <artifactId>jboss-rmi-api_1.0_spec</artifactId>
           <version>1.0.6.Final</version>
         </dependency>
-<!--
+        <!--
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -352,7 +334,7 @@
           <!-- <scope>test</scope> -->
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
-<!--
+        <!--
         <dependency>
           <groupId>com.microsoft.sqlserver</groupId>
           <artifactId>mssql-jdbc</artifactId>
