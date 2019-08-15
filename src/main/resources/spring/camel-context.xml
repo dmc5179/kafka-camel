@@ -11,6 +11,7 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.logger.rout" />
 	<context:property-placeholder location="classpath:config.properties"/>  	
+        <context:property-placeholder location="classpath:aws.properties"/>
 
 	<!-- Data Source Declaration -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
